@@ -38,10 +38,10 @@ gulp.task('typings', function () {
 })
 
 
-gulp.task('clean-assets', function () {
-  return gulp.src(desinationAssets, { read: false })
-    .pipe(clean());
-});
+// gulp.task('clean-assets', function () {
+//   return gulp.src(desinationAssets, { read: false })
+//     .pipe(clean());
+// });
 
 gulp.task('assets', function () {
 
@@ -78,6 +78,6 @@ gulp.task('js', function () {
 
 gulp.task('client', ['typings', 'libs', 'assets', 'scripts-client', 'js'], function () {
   gulp.watch('src/**/*.ts', ['scripts-client']);
-  gulp.watch('src/assets/**/*', ['clean-assets', 'assets']);
+  gulp.watch('src/assets/**/*', ['assets']);
   gulp.watch('src/*.js', ['js']);
 });
