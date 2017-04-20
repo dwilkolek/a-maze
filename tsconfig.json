@@ -1,17 +1,25 @@
 {
     "compilerOptions": {
-        "module": "amd",
+        "module": "system",
         "target": "es5",
         "noImplicitAny": false,
         "sourceMap": true,
-        "outFile": "dist/js/app.js"
+        "outFile": "client/app.js",
+        "rootDir": "./src",
+        "project": "./src",
+        "moduleResolution": "node",
+        "declaration": false
+        // },
+        // "include": [
+        //     "typings/p2.d.ts",
+        //     "typings/phaser.d.ts",
+        //     "typings/pixi.d.ts"
+        // ]
+        // ,
+
     },
-    "include": [
-        "./typings/p2.d.ts",
-        "./typings/phaser.d.ts",
-        "./typings/pixi.d.ts"
-    ],
     "exclude": [
-        "node_modules"
-    ]
+            "node_modules",
+            "dist"
+        ]
 }
