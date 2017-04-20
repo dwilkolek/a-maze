@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "amd",
+        "target": "es5",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "outFile": "dist/js/app.js"
+    },
+    "include": [
+        "./typings/p2.d.ts",
+        "./typings/phaser.d.ts",
+        "./typings/pixi.d.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
