@@ -8,7 +8,8 @@ var clean = require('gulp-clean');
 var typings = [
   'node_modules/phaser/typescript/p2.d.ts',
   'node_modules/phaser/typescript/phaser.d.ts',
-  'node_modules/phaser/typescript/pixi.d.ts'
+  'node_modules/phaser/typescript/pixi.d.ts',
+  // 'node_modules/phaser/typescript/phaser.comments.d.ts'
 ]
 
 var libs = [
@@ -55,10 +56,7 @@ gulp.task('libs', function () {
     .pipe(gulp.dest(destinationLibs));
 })
 
-var tsProject = ts.createProject({
-  declaration: true,
-  out: 'client/app.js'
-});
+var tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('scripts-client', function () {
   var tsResult = gulp.src([].concat(typings).concat(['src/client/**/*.ts']))
