@@ -5,6 +5,8 @@ class SimpleGame {
     constructor() {
         this.game = new Phaser.Game(800, 600, Phaser.AUTO, 'content',
             {preload: this.preload, create: this.create});
+
+        console.log(new SimpleClass(5).incrementedVariable)
     }
 
     preload() {
