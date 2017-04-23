@@ -18,7 +18,7 @@ app.use('/assets', express.static(path.join(__dirname + '/assets')));
 app.use((err, request, response, next) => {
   // log the error, for now just console.log
   console.log(err)
-  response.status(500).send('Something broke!')
+  response.status(500).send('Something broke!' + err)
 })
 
 app.listen(port, (err) => {

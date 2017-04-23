@@ -12,6 +12,7 @@ class MazeGame {
 
     tilePrinter: TilePrinter;
 
+    size: { x: number, y: number } = { x: 20, y: 15 };
 
     constructor() {
 
@@ -19,28 +20,41 @@ class MazeGame {
         var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
         this.game = new Phaser.Game(w, h, Phaser.AUTO, 'content',
-            { preload: this.preload, create: this.create, update: this.update.bind(this), renderer: this.renderer });
+            { preload: this.preload, create: this.create.bind(this), update: this.update.bind(this), render: this.render.bind(this) });
         console.log("game started with:" + w + 'x' + h);
-        this.maze = MazeGenerator.maze();
-        this.tileSize = (h - 2 * Consts.margins) / this.maze.map.length;
+        // this.maze = MazeGenerator.getInstance().maze();
+        this.maze = { maze: MazeGenerator.getInstance().f(this.size) };
+        this.tileSize = (h - 2 * Consts.margins) / this.size.y;
         console.log(this.tileSize)
-        this.tilePrinter = new TilePrinter(this.game, this.tileSize);
+
     }
 
     preload() { }
 
-    create() { }
-
-    update() {
-        this.maze.map.forEach((row: number[], y: number) => {
-            row.forEach((cell: number, x: number) => {
-                this.tilePrinter.create(x, y, cell);
-            })
-        })
+    create() {
+        this.tilePrinter = new TilePrinter(this.game, this.tileSize);
     }
 
-    renderer() {
-        this.game.debug.text(this.game.time.fps.toString() || '--', 2, 14, "#00ff00");
+    update() { // this.tilePrinter.create(x, y, cell);
+
+        for (var i = 0; i < this.maze.maze.length; i++) {
+            // $('#maze > tbody').append("<tr>");
+            for (var j = 0; j < this.maze.maze[i].length; j++) {
+                // var selector = i + "-" + j;
+                // $('#maze > tbody').append("<td id='" + selector + "'>&nbsp;</td>");
+                this.tilePrinter.create(j, i, this.maze.maze[i][j], this.size)
+                // if (this.maze.maze[i][j][0] == 0) { $('#' + selector).css('border-top', '2px solid black'); }
+                // if (this.maze.maze[i][j][1] == 0) { $('#' + selector).css('border-right', '2px solid black'); }
+                // if (this.maze.maze[i][j][2] == 0) { $('#' + selector).css('border-bottom', '2px solid black'); }
+                // if (this.maze.maze[i][j][3] == 0) { $('#' + selector).css('border-left', '2px solid black'); }
+            }
+            // $('#maze > tbody').append("</tr>");
+        }
+    }
+    // }
+
+    render() {
+        this.game.debug.text(this.game.time.fps.toString() || '--', 2, 15, "#ff0000");
     }
 }
 
