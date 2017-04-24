@@ -11,18 +11,8 @@ class MazeGenerator {
     return this._instance
   }
 
-  public maze() {
-
-    // return new Maze([
-    //   [1, 0, 1, 0, 1],
-    //   [1, 0, 1, 0, 0],
-    //   [1, 0, 1, 1, 1],
-    //   [1, 0, 0, 1, 0],
-    //   [1, 1, 0, 1, 1]
-    // ], { x: 0, y: 1 }, { x: 4, y: 2 })
-  }
-
-  public f(size: {x: number, y: number}) {
+  public generate(size: { x: number, y: number }) {
+    var t = new Date();
     var x = size.x;
     var y = size.y;
     // function newMaze(x, y) {
@@ -80,6 +70,10 @@ class MazeGenerator {
         currentCell = path.pop();
       }
     }
+
+    var t2 = new Date();
+    console.log('Maze generation finished in:' + (t2.getMilliseconds() - t.getMilliseconds()))
+    // console.log(JSON.stringify(cells));
     return cells;
   }
   // }

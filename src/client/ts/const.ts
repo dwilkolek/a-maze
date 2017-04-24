@@ -1,4 +1,4 @@
 class Consts {
-  public static margins: number = 10;
-
+  public static margins: number = 0;
+  public static tileSize: number = 0;
 }

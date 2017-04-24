@@ -8,56 +8,69 @@ class MazeGame {
 
     maze: Maze;
 
-    tileSize: number;
+    wallManager: WallManager;
 
-    tilePrinter: TilePrinter;
+    size: { x: number, y: number } = { x: 15, y: 15 };
 
-    size: { x: number, y: number } = { x: 20, y: 15 };
+    ufo: Ufo;
 
     constructor() {
-
         var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        Consts.tileSize = w/5.0;
 
         this.game = new Phaser.Game(w, h, Phaser.AUTO, 'content',
-            { preload: this.preload, create: this.create.bind(this), update: this.update.bind(this), render: this.render.bind(this) });
-        console.log("game started with:" + w + 'x' + h);
-        // this.maze = MazeGenerator.getInstance().maze();
-        this.maze = { maze: MazeGenerator.getInstance().f(this.size) };
-        this.tileSize = (h - 2 * Consts.margins) / this.size.y;
-        console.log(this.tileSize)
+            { preload: this.preload.bind(this), create: this.create.bind(this), update: this.update.bind(this), render: this.render.bind(this) });
+        //
+
+
+        this.maze = { maze: MazeGenerator.getInstance().generate(this.size) };
 
     }
 
-    preload() { }
+    preload() {
+        var t = new Date();
+        this.game.load.image('ufo', 'assets/ufo.png');
+        this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.game.scale.pageAlignHorizontally = true;
+        this.game.scale.pageAlignVertically = true;
+        var t2 = new Date();
+        console.log('Preaload:' + (t2.getMilliseconds() - t.getMilliseconds()))
+    }
 
     create() {
-        this.tilePrinter = new TilePrinter(this.game, this.tileSize);
+        var t = new Date();
+
+        this.game.time.advancedTiming = true;
+        this.wallManager = new WallManager(this.game);
+        this.game.physics.startSystem(Phaser.Physics.P2JS);
+        this.game.world.setBounds(0, 0, this.size.x * Consts.tileSize, this.size.y * Consts.tileSize);
+        this.game.physics.p2.restitution = 0.0;
+        this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
+        // this.game.physics.p2.restitution = 1;
+        // this.game.physics.p2.gravity.y = 1;
+
+        this.ufo = new Ufo(this.game, this.wallManager);
+        var t2 = new Date();
+        console.log('Create:' + (t2.getMilliseconds() - t.getMilliseconds()))
+        this.wallManager.draw(this.maze, this.size);
     }
 
-    update() { // this.tilePrinter.create(x, y, cell);
-
-        for (var i = 0; i < this.maze.maze.length; i++) {
-            // $('#maze > tbody').append("<tr>");
-            for (var j = 0; j < this.maze.maze[i].length; j++) {
-                // var selector = i + "-" + j;
-                // $('#maze > tbody').append("<td id='" + selector + "'>&nbsp;</td>");
-                this.tilePrinter.create(j, i, this.maze.maze[i][j], this.size)
-                // if (this.maze.maze[i][j][0] == 0) { $('#' + selector).css('border-top', '2px solid black'); }
-                // if (this.maze.maze[i][j][1] == 0) { $('#' + selector).css('border-right', '2px solid black'); }
-                // if (this.maze.maze[i][j][2] == 0) { $('#' + selector).css('border-bottom', '2px solid black'); }
-                // if (this.maze.maze[i][j][3] == 0) { $('#' + selector).css('border-left', '2px solid black'); }
-            }
-            // $('#maze > tbody').append("</tr>");
-        }
+    update() {
+        this.ufo.update();
     }
-    // }
 
     render() {
+        this.wallManager.walls.forEach((c) => {
+            this.game.debug.body(c);
+        }, this);
+        this.game.debug.body(this.ufo.sprite);
         this.game.debug.text(this.game.time.fps.toString() || '--', 2, 15, "#ff0000");
     }
 }
-
+var t = new Date();
 window.onload = () => {
+    console.log('Onload:' + (t2.getMilliseconds() - t.getMilliseconds()))
     let game = new MazeGame();
 }
+var t2 = new Date();
