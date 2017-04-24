@@ -17,7 +17,7 @@ class MazeGame {
     constructor() {
         var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        Consts.tileSize = w/5.0;
+        Consts.tileSize = w/10.0;
 
         this.game = new Phaser.Game(w, h, Phaser.AUTO, 'content',
             { preload: this.preload.bind(this), create: this.create.bind(this), update: this.update.bind(this), render: this.render.bind(this) });
@@ -31,6 +31,7 @@ class MazeGame {
     preload() {
         var t = new Date();
         this.game.load.image('ufo', 'assets/ufo.png');
+        this.game.load.image('gold', 'assets/gold.png');
         this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.game.scale.pageAlignHorizontally = true;
         this.game.scale.pageAlignVertically = true;

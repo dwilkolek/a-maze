@@ -3,8 +3,14 @@ class Ufo {
   position = { x: 0, y: 0 }
   sprite: Phaser.Sprite;
   cursors: Phaser.CursorKeys;
+  emitter: Phaser.Particles.Arcade.Emitter;
+  particlesGroup: Phaser.Group;
+
   private scaleToTile = 0.5;
   constructor(private game: Phaser.Game, private wallManager: WallManager) {
+
+    this.particlesGroup = this.game.add.group();
+
     this.sprite = game.add.sprite(this.position.x + Consts.tileSize * 0.5, this.position.y + Consts.tileSize * 0.5, 'ufo');
     this.sprite.anchor.set(0.5);
     this.sprite.scale.setTo(Consts.tileSize / 512 * this.scaleToTile, Consts.tileSize / 512 * this.scaleToTile);
@@ -17,6 +23,8 @@ class Ufo {
     this.sprite.body.debug = true;
 
     this.game.camera.follow(this.sprite, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+
+    this.game.time.events.loop(300, this.particles.bind(this), this)
 
     // var graphics = game.add.graphics(0, 0);
 
@@ -35,23 +43,41 @@ class Ufo {
   move() {
     this.sprite.body.setZeroRotation();
     this.sprite.body.setZeroVelocity();
-    var step = Consts.tileSize*2;
-    if (this.cursors.left.isDown)
-    {
-        this.sprite.body.moveLeft(step);
+    var step = Consts.tileSize * 2;
+    if (this.cursors.left.isDown) {
+      this.sprite.body.moveLeft(step);
     }
-    else if (this.cursors.right.isDown)
-    {
-        this.sprite.body.moveRight(step);
+    else if (this.cursors.right.isDown) {
+      this.sprite.body.moveRight(step);
     }
 
-    if (this.cursors.up.isDown)
-    {
-        this.sprite.body.moveUp(step);
+    if (this.cursors.up.isDown) {
+      this.sprite.body.moveUp(step);
     }
-    else if (this.cursors.down.isDown)
-    {
-        this.sprite.body.moveDown(step);
+    else if (this.cursors.down.isDown) {
+      this.sprite.body.moveDown(step);
+    }
+  }
+  particles() {
+    if (this.cursors.left.isDown || this.cursors.right.isDown || this.cursors.up.isDown || this.cursors.down.isDown) {
+
+      var particle = this.game.add.sprite(this.sprite.x, this.sprite.y, 'gold');
+      particle.scale.setTo(Consts.tileSize / 512 * this.scaleToTile * 0.3);
+      particle.anchor.set(0.5);
+      // particle.alpha = 0.5;
+      this.particlesGroup.add(particle);
+
+      var time = 45000;
+      var tween = this.game.add.tween(particle);
+      var tweenScale = this.game.add.tween(particle.scale);
+      tweenScale.to({ y: 0, x: 0 }, time - 2000, Phaser.Easing.Linear.None, true)
+
+      tween.to({ alpha: 0, angle: 8000 }, time, Phaser.Easing.Linear.None);
+      tween.onComplete.add((e) => {
+        e.destroy();
+      }, this);
+      tween.start();
+
     }
   }
 
