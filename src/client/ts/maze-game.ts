@@ -10,7 +10,7 @@ class MazeGame {
 
     wallManager: WallManager;
 
-    size: { x: number, y: number } = { x: 15, y: 15 };
+    size: { x: number, y: number } = { x: 5, y: 5 };
 
     ufo: Ufo;
     w: number;
@@ -19,15 +19,15 @@ class MazeGame {
     constructor() {
         this.w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         this.h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        Consts.tileSize = this.w / 10.0;
+        Consts.tileSize = this.w / 50;
 
         this.game = new Phaser.Game(this.w, this.h, Phaser.AUTO, 'content',
             { preload: this.preload.bind(this), create: this.create.bind(this), update: this.update.bind(this), render: this.render.bind(this) });
         //
 
 
-        this.maze = { maze: MazeGenerator.getInstance().generate(this.size) };
-
+        this.maze = MazeGenerator.getInstance().generate(this.size) ;
+        //console.log(JSON.stringify(this.maze.maze))
     }
 
     preload() {

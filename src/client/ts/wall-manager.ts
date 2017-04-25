@@ -18,6 +18,9 @@ class WallManager {
   }
 
   public draw(maze: Maze, size: { x: number, y: number }) {
+
+    //TODO refactor for optimized;
+
     this.game.paused = true;
     var t = new Date();
     console.log()
@@ -62,8 +65,8 @@ class WallManager {
       // graphics.beginFill(color);
       // graphics.drawRect(
       this.addWall(
-        x * Consts.tileSize - this.offset(x),
-        y * Consts.tileSize - this.offset(y),
+        x * Consts.tileSize, //- this.offset(x),
+        y * Consts.tileSize, //- this.offset(y),
         Consts.tileSize,// - this.wallThickness(),
         this.wallThickness()
       )
@@ -80,8 +83,8 @@ class WallManager {
       // graphics.beginFill(color);
       // graphics.drawRect(
       this.addWall(
-        (x + 1) * Consts.tileSize - this.wallThickness() - this.offset(x),
-        y * Consts.tileSize - this.offset(y),
+        (x + 1) * Consts.tileSize - this.wallThickness(), //- this.offset(x),
+        y * Consts.tileSize ,//- this.offset(y),
         this.wallThickness(),
         Consts.tileSize// - this.wallThickness()
       );
@@ -95,8 +98,8 @@ class WallManager {
       // graphics.beginFill(color);
       // graphics.drawRect(
       this.addWall(
-        x * Consts.tileSize - this.offset(x),
-        (y + 1) * Consts.tileSize - this.wallThickness() - this.offset(y),
+        x * Consts.tileSize, //- this.offset(x),
+        (y + 1) * Consts.tileSize - this.wallThickness(), //- this.offset(y),
         Consts.tileSize,// - this.wallThickness(),
         this.wallThickness()
       );
@@ -110,8 +113,8 @@ class WallManager {
       // graphics.beginFill(color);
       // graphics.drawRect(
       this.addWall(
-        x * Consts.tileSize - this.offset(x),
-        y * Consts.tileSize - this.offset(y),
+        x * Consts.tileSize,// - this.offset(x),
+        y * Consts.tileSize,// - this.offset(y),
         this.wallThickness(),
         Consts.tileSize// - this.wallThickness()
       );
@@ -184,8 +187,8 @@ class WallManager {
     graphics.lineStyle(1, this.colors.bord, 1);
     graphics.beginFill(bg);
     graphics.drawRect(
-      x * Consts.tileSize - this.offset(x),
-      y * Consts.tileSize - this.offset(y),
+      x * Consts.tileSize,// - this.offset(x),
+      y * Consts.tileSize,// - this.offset(y),
       Consts.tileSize,
       Consts.tileSize
     );

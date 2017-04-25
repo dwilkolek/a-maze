@@ -73,99 +73,95 @@ class MazeGenerator {
 
     var t2 = new Date();
     console.log('Maze generation finished in:' + (t2.getMilliseconds() - t.getMilliseconds()))
-    // console.log(JSON.stringify(cells));
-    return cells;
+    return this.optimizeWalls(cells);
   }
-  // }
+
+  optimizeWalls(cells: number[][][]) {
+    var horizontalWalls:any[][] = [];
+
+    var prepforVert = [];
+
+    cells.forEach((row, rowI, rows) => {
+      var nextRow = rows[rowI + 1];
+      horizontalWalls[rowI] = [];
+      var lastRowValue = null;
+      var rowCache = 0;
+      row.forEach((cell, cellI, cells) => {
+        if (!nextRow) {
+          return;
+        }
+        var horizontalWall = !!cell[2] || !!nextRow[cellI][0];
+        if (lastRowValue === horizontalWall || lastRowValue === null) {
+          if (lastRowValue == null) {
+            lastRowValue = horizontalWall;
+          }
+          rowCache++;
+        } else {
+          horizontalWalls[rowI].push({ wall: lastRowValue, count: rowCache });
+          lastRowValue = horizontalWall;
+          rowCache = 1;
+        }
+
+      })
+      horizontalWalls[rowI].push({ wall: lastRowValue, count: rowCache });
+    });
+
+
+    var verticalWallsTmp = [];
+    for (var i = 0; i < cells.length; i++) {
+      verticalWallsTmp[i] = [];
+    }
+
+
+    verticalWallsTmp = cells.map((row, rowI, rows) => {
+      return row.map((cell, cellI, cells) => {
+        var nextCell = cells[cellI + 1];
+        var verticalWall = !!cell[1] || (nextCell ? !!nextCell[3] : false);
+        return verticalWall
+      })
+    })
+
+    var cols = []
+
+    for (var r = 0; r < verticalWallsTmp.length; r++) {
+      for (var c = 0; c < verticalWallsTmp[r].length; c++) {
+        var value = verticalWallsTmp[r][c];
+        if (!cols[c]) {
+          cols[c] = [];
+        }
+        if (!cols[c][r]) {
+          cols[c][r] = [];
+        }
+        cols[c][r] = value
+      }
+    }
+
+    var verticalWalls = cols.map((col, colI, colA) => {
+      var lastValue = null;
+      var count = 0;
+      var res = [];
+      col.forEach((wall, wallI, wallA) => {
+        if (lastValue == null) {
+          lastValue = wall;
+          count++;
+        } else {
+          if (wall !== lastValue) {
+            res.push({ wall: lastValue, count: count });
+            lastValue = wall;
+            count = 1;
+          } else {
+            count++;
+          }
+        }
+      })
+      res.push({ wall: lastValue, count: count });
+
+      return res;
+    })
+
+
+    return { cols: verticalWalls, rows: horizontalWalls };
+  }
+
 
 }
-
-
-
-
-
-// init = function () {
-//   offset = pathWidth / 2 + outerWall
-//   map = []
-//   canvas = document.querySelector('canvas')
-//   ctx = canvas.getContext('2d')
-//   canvas.width = outerWall * 2 + width * (pathWidth + wall) - wall
-//   canvas.height = outerWall * 2 + height * (pathWidth + wall) - wall
-//   ctx.fillStyle = wallColor
-//   ctx.fillRect(0, 0, canvas.width, canvas.height)
-//   random = randomGen(seed)
-//   ctx.strokeStyle = pathColor
-//   ctx.lineCap = 'square'
-//   ctx.lineWidth = pathWidth
-//   ctx.beginPath()
-//   for (var i = 0; i < height * 2; i++) {
-//     map[i] = []
-//     for (var j = 0; j < width * 2; j++) {
-//       map[i][j] = false
-//     }
-//   }
-//   map[y * 2][x * 2] = true
-//   route = [[x, y]]
-//   ctx.moveTo(x * (pathWidth + wall) + offset,
-//     y * (pathWidth + wall) + offset)
-// }
-// init()
-
-// inputWidth = document.getElementById('width')
-// inputHeight = document.getElementById('height')
-// inputPathWidth = document.getElementById('pathwidth')
-// inputWallWidth = document.getElementById('wallwidth')
-// inputOuterWidth = document.getElementById('outerwidth')
-// inputPathColor = document.getElementById('pathcolor')
-// inputWallColor = document.getElementById('wallcolor')
-// inputSeed = document.getElementById('seed')
-// buttonRandomSeed = document.getElementById('randomseed')
-
-// settings = {
-//   display: function () {
-//     inputWidth.value = width
-//     inputHeight.value = height
-//     inputPathWidth.value = pathWidth
-//     inputWallWidth.value = wall
-//     inputOuterWidth.value = outerWall
-//     inputPathColor.value = pathColor
-//     inputWallColor.value = wallColor
-//     inputSeed.value = seed
-//   },
-//   check: function () {
-//     if (inputWidth.value != width ||
-//       inputHeight.value != height ||
-//       inputPathWidth.value != pathWidth ||
-//       inputWallWidth.value != wall ||
-//       inputOuterWidth.value != outerWall ||
-//       inputPathColor.value != pathColor ||
-//       inputWallColor.value != wallColor ||
-//       inputSeed.value != seed) {
-//       settings.update()
-//     }
-//   },
-//   update: function () {
-//     clearTimeout(timer)
-//     width = parseFloat(inputWidth.value)
-//     height = parseFloat(inputHeight.value)
-//     pathWidth = parseFloat(inputPathWidth.value)
-//     wall = parseFloat(inputWallWidth.value)
-//     outerWall = parseFloat(inputOuterWidth.value)
-//     pathColor = inputPathColor.value
-//     wallColor = inputWallColor.value
-//     seed = parseFloat(inputSeed.value)
-//     x = width / 2 | 0
-//     y = height / 2 | 0
-//     init()
-//     loop()
-//   }
-// }
-
-// buttonRandomSeed.addEventListener('click', function () {
-//   inputSeed.value = Math.random() * 100000 | 0
-// })
-
-
-// settings.display()
-// loop()
-// setInterval(settings.check, 400)

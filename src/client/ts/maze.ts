@@ -1,3 +1,4 @@
 interface Maze {
-  maze: number[][][];
+  cols: {wall: boolean, count: number}[][];
+  rows: {wall: boolean, count: number}[][];
 }

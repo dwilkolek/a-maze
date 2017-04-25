@@ -85,3 +85,17 @@ gulp.task('client', ['typings', 'libs', 'assets', 'scripts-client', 'js'], funct
 gulp.task('compile', ['typings', 'libs', 'assets', 'scripts-client', 'js'], function () {
 });
 
+gulp.task('cordova', ['compile'], function () {
+  gulp
+    .src('dist/assets/*.html')
+    // .pipe(gulpCopy(destination, options))
+    // .pipe(otherGulpFunction())
+    .pipe(gulp.dest('tiled-game-cordova/www'));
+  gulp
+    .src(['dist/assets/**/*'])
+    .pipe(gulp.dest('tiled-game-cordova/www/assets/'));
+  gulp
+    .src(['dist/libs/**/*'])
+    .pipe(gulp.dest('tiled-game-cordova/www/libs/'));
+});
+
