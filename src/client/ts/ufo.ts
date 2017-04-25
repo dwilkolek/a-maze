@@ -35,31 +35,32 @@ class Ufo {
 
   }
 
-
-  update() {
-    this.move();
+  moveObject: { up: boolean, down: boolean, left: boolean, right: boolean };
+  update(moveObject: { up: boolean, down: boolean, left: boolean, right: boolean }) {
+    this.moveObject = moveObject;
+    this.move(moveObject);
   }
 
-  move() {
+  move(moveObject: { up: boolean, down: boolean, left: boolean, right: boolean }) {
     this.sprite.body.setZeroRotation();
     this.sprite.body.setZeroVelocity();
     var step = Consts.tileSize * 2;
-    if (this.cursors.left.isDown) {
+    if (this.cursors.left.isDown || moveObject.left) {
       this.sprite.body.moveLeft(step);
     }
-    else if (this.cursors.right.isDown) {
+    else if (this.cursors.right.isDown || moveObject.right) {
       this.sprite.body.moveRight(step);
     }
 
-    if (this.cursors.up.isDown) {
+    if (this.cursors.up.isDown || moveObject.up) {
       this.sprite.body.moveUp(step);
     }
-    else if (this.cursors.down.isDown) {
+    else if (this.cursors.down.isDown || moveObject.down) {
       this.sprite.body.moveDown(step);
     }
   }
   particles() {
-    if (this.cursors.left.isDown || this.cursors.right.isDown || this.cursors.up.isDown || this.cursors.down.isDown) {
+    if (this.cursors.left.isDown || this.cursors.right.isDown || this.cursors.up.isDown || this.cursors.down.isDown || this.moveObject.left || this.moveObject.right || this.moveObject.up || this.moveObject.down) {
 
       var particle = this.game.add.sprite(this.sprite.x, this.sprite.y, 'gold');
       particle.scale.setTo(Consts.tileSize / 512 * this.scaleToTile * 0.3);
