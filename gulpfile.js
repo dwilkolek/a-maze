@@ -81,3 +81,7 @@ gulp.task('client', ['typings', 'libs', 'assets', 'scripts-client', 'js'], funct
   gulp.watch('src/assets/**/*', ['assets']);
   gulp.watch('src/*.js', ['js']);
 });
+
+gulp.task('compile', ['typings', 'libs', 'assets', 'scripts-client', 'js'], function () {
+});
+
