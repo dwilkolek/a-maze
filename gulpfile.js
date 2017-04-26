@@ -93,7 +93,7 @@ gulp.task('cordova', ['compile'], function () {
     // .pipe(gulp.dest('tiled-game-cordova/www'));
   gulp
     .src(['dist/**/*'])
-    .pipe(gulp.dest('tiled-game-cordova/www/'));
+    .pipe(gulp.dest('mobile/www/'));
   // gulp
   //   .src(['dist/assets/**/*'])
   //   .pipe(gulp.dest('tiled-game-cordova/www/assets/'));
