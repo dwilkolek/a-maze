@@ -14,24 +14,15 @@ class Ufo {
     this.sprite = game.add.sprite(this.position.x + Consts.tileSize * 0.5, this.position.y + Consts.tileSize * 0.5, 'ufo');
     this.sprite.anchor.set(0.5);
     this.sprite.scale.setTo(Consts.tileSize / 512 * this.scaleToTile, Consts.tileSize / 512 * this.scaleToTile);
-    // this.sprite.body = true;
-    // this.game.physics.arcade.enable(this.sprite);
+
     game.physics.p2.enable(this.sprite);
 
     this.sprite.body.setCircle(Consts.tileSize * 0.5 * this.scaleToTile);
     this.cursors = game.input.keyboard.createCursorKeys();
-    // this.sprite.body.debug = true;
 
     this.game.camera.follow(this.sprite, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
     this.game.time.events.loop(300, this.particles.bind(this), this)
-
-    // var graphics = game.add.graphics(0, 0);
-
-    // // graphics.lineStyle(2, 0xffd900, 1);
-
-    // graphics.beginFill(0xFF0000, 1);
-    // graphics.drawCircle(this.position.x + Consts.tileSize * 0.5, this.position.y + Consts.tileSize * 0.5, Consts.tileSize * 0.5);
 
   }
 
@@ -70,7 +61,6 @@ class Ufo {
       particle.anchor.set(0.5);
       particle.x = this.sprite.x;
       particle.y = this.sprite.y;
-      // particle.alpha = 0.5;
       this.particlesGroup.add(particle);
       particle.visible = true;
       var time = 45000;

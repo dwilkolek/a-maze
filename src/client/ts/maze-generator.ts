@@ -12,12 +12,9 @@ class MazeGenerator {
   }
 
   public generate(size: { x: number, y: number }) {
-    var t = new Date();
     var x = size.x;
     var y = size.y;
-    // function newMaze(x, y) {
 
-    // Establish variables and starting grid
     var totalCells = x * y;
     var cells = new Array();
     var unvis = new Array();
@@ -72,8 +69,7 @@ class MazeGenerator {
     }
 
     var result = this.optimizeWalls(cells);
-    var t2 = new Date();
-    console.log('Maze generation finished in:' + (t2.getMilliseconds() - t.getMilliseconds()))
+
     return result;
   }
 

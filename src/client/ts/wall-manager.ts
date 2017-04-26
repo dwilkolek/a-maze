@@ -5,12 +5,8 @@ class WallManager {
   public bg: Phaser.Group;
   public walls: Phaser.Group;
   palette = {
-    bord: 0x888888,
-    bg: 0x222222,
     color: 0xFF0000,
     opacity: 0.27,
-    startbg: 0x000000,
-    endbg: 0xeeee00
   }
 
   constructor(private game: Phaser.Game) {
