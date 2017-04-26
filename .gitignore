@@ -1,3 +1,4 @@
 /dist
 /node_modules
 /typings
+/tiled-game-cordova/platforms/android/CordovaLib/build
