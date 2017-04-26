@@ -5,11 +5,9 @@ const app = express();
 const port = 3000
 
 app.get('/', (request, response) => {
-  response.sendFile('assets/client.html', { root: path.join(__dirname, '') })
+  response.sendFile('client.html', { root: path.join(__dirname, '') })
 })
-app.get('/app.js', (request, response) => {
-  response.sendFile('client/app.js', { root: path.join(__dirname, '') })
-})
+app.use('/client', express.static(path.join(__dirname + '/client')));
 app.use('/libs', express.static(path.join(__dirname + '/libs')));
 app.use('/assets', express.static(path.join(__dirname + '/assets')));
 

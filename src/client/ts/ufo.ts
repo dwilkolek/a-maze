@@ -60,7 +60,8 @@ class Ufo {
     }
   }
   particles() {
-    if (this.cursors.left.isDown || this.cursors.right.isDown || this.cursors.up.isDown || this.cursors.down.isDown || this.moveObject.left || this.moveObject.right || this.moveObject.up || this.moveObject.down) {
+    if (this.cursors.left.isDown || this.cursors.right.isDown || this.cursors.up.isDown || this.cursors.down.isDown ||
+      (this.moveObject ? (this.moveObject.left || this.moveObject.right || this.moveObject.up || this.moveObject.down) : false)) {
 
       var particle = this.game.add.sprite(1000, 1000, 'gold');
       particle.visible = false;

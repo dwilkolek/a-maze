@@ -72,7 +72,7 @@ gulp.task('scripts-client', function () {
 
 gulp.task('js', function () {
   gulp
-    .src('src/*.js')
+    .src(['src/*.js', 'src/*.html'])
     .pipe(gulp.dest('dist'));
 })
 
@@ -86,16 +86,19 @@ gulp.task('compile', ['typings', 'libs', 'assets', 'scripts-client', 'js'], func
 });
 
 gulp.task('cordova', ['compile'], function () {
-  gulp
-    .src('dist/assets/*.html')
+  // gulp
+  //   .src('dist/assets/*.html')
     // .pipe(gulpCopy(destination, options))
     // .pipe(otherGulpFunction())
-    .pipe(gulp.dest('tiled-game-cordova/www'));
+    // .pipe(gulp.dest('tiled-game-cordova/www'));
   gulp
-    .src(['dist/assets/**/*'])
-    .pipe(gulp.dest('tiled-game-cordova/www/assets/'));
-  gulp
-    .src(['dist/libs/**/*'])
-    .pipe(gulp.dest('tiled-game-cordova/www/libs/'));
+    .src(['dist/**/*'])
+    .pipe(gulp.dest('tiled-game-cordova/www/'));
+  // gulp
+  //   .src(['dist/assets/**/*'])
+  //   .pipe(gulp.dest('tiled-game-cordova/www/assets/'));
+  // gulp
+  //   .src(['dist/libs/**/*'])
+  //   .pipe(gulp.dest('tiled-game-cordova/www/libs/'));
 });
 
