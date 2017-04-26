@@ -20,7 +20,7 @@ class Ufo {
 
     this.sprite.body.setCircle(Consts.tileSize * 0.5 * this.scaleToTile);
     this.cursors = game.input.keyboard.createCursorKeys();
-    this.sprite.body.debug = true;
+    // this.sprite.body.debug = true;
 
     this.game.camera.follow(this.sprite, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
@@ -62,12 +62,16 @@ class Ufo {
   particles() {
     if (this.cursors.left.isDown || this.cursors.right.isDown || this.cursors.up.isDown || this.cursors.down.isDown || this.moveObject.left || this.moveObject.right || this.moveObject.up || this.moveObject.down) {
 
-      var particle = this.game.add.sprite(this.sprite.x, this.sprite.y, 'gold');
-      particle.scale.setTo(Consts.tileSize / 512 * this.scaleToTile * 0.3);
+      var particle = this.game.add.sprite(1000, 1000, 'gold');
+      particle.visible = false;
+      particle.scale.setTo(Consts.tileSize / 32 * this.scaleToTile * 0.3);
+
       particle.anchor.set(0.5);
+      particle.x = this.sprite.x;
+      particle.y = this.sprite.y;
       // particle.alpha = 0.5;
       this.particlesGroup.add(particle);
-
+      particle.visible = true;
       var time = 45000;
       var tween = this.game.add.tween(particle);
       var tweenScale = this.game.add.tween(particle.scale);

@@ -71,13 +71,14 @@ class MazeGenerator {
       }
     }
 
+    var result = this.optimizeWalls(cells);
     var t2 = new Date();
     console.log('Maze generation finished in:' + (t2.getMilliseconds() - t.getMilliseconds()))
-    return this.optimizeWalls(cells);
+    return result;
   }
 
-  optimizeWalls(cells: number[][][]) {
-    var horizontalWalls:any[][] = [];
+  private optimizeWalls(cells: number[][][]) {
+    var horizontalWalls: any[][] = [];
 
     var prepforVert = [];
 
@@ -103,7 +104,9 @@ class MazeGenerator {
         }
 
       })
-      horizontalWalls[rowI].push({ wall: lastRowValue, count: rowCache });
+      if (rowCache > 0) {
+        horizontalWalls[rowI].push({ wall: lastRowValue, count: rowCache });
+      }
     });
 
 
@@ -154,10 +157,13 @@ class MazeGenerator {
           }
         }
       })
-      res.push({ wall: lastValue, count: count });
-
+      if (count > 0) {
+        res.push({ wall: lastValue, count: count });
+      }
       return res;
     })
+
+    verticalWalls.pop();
 
 
     return { cols: verticalWalls, rows: horizontalWalls };

@@ -10,7 +10,7 @@ class MazeGame {
 
     wallManager: WallManager;
 
-    size: { x: number, y: number } = { x: 5, y: 5 };
+    size: { x: number, y: number } = { x: 20, y: 20 };
 
     ufo: Ufo;
     w: number;
@@ -19,7 +19,7 @@ class MazeGame {
     constructor() {
         this.w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         this.h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        Consts.tileSize = this.w / 50;
+        Consts.tileSize = this.w / 15;
 
         this.game = new Phaser.Game(this.w, this.h, Phaser.AUTO, 'content',
             { preload: this.preload.bind(this), create: this.create.bind(this), update: this.update.bind(this), render: this.render.bind(this) });
@@ -34,6 +34,7 @@ class MazeGame {
         var t = new Date();
         this.game.load.image('ufo', 'assets/ufo.png');
         this.game.load.image('gold', 'assets/gold.png');
+        this.game.load.image('maze-bg', 'assets/maze-bg.png');
 
         this.game.load.spritesheet('buttonvertical', 'assets/button-vertical.png', 32, 64);
         this.game.load.spritesheet('buttonhorizontal', 'assets/button-horizontal.png', 64, 32);
@@ -49,10 +50,10 @@ class MazeGame {
     create() {
         var t = new Date();
 
-        this.game.time.advancedTiming = true;
+        // this.game.time.advancedTiming = true;
         this.wallManager = new WallManager(this.game);
         this.game.physics.startSystem(Phaser.Physics.P2JS);
-        this.game.world.setBounds(0, 0, this.size.x * Consts.tileSize, this.size.y * Consts.tileSize);
+        this.game.world.setBounds(0, 0, this.size.x * Consts.tileSize + WallManager.mazeOffset*2, this.size.y * Consts.tileSize + WallManager.mazeOffset*2);
         this.game.physics.p2.restitution = 0.0;
         this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
         // this.game.physics.p2.restitution = 1;
@@ -76,11 +77,11 @@ class MazeGame {
     }
 
     render() {
-        this.wallManager.walls.forEach((c) => {
-            this.game.debug.body(c);
-        }, this);
-        this.game.debug.body(this.ufo.sprite);
-        this.game.debug.text(this.game.time.fps.toString() || '--', 2, 15, "#ff0000");
+        // this.wallManager.walls.forEach((c) => {
+        //     this.game.debug.body(c);
+        // }, this);
+        // this.game.debug.body(this.ufo.sprite);
+        // this.game.debug.text(this.game.time.fps.toString() || '--', 2, 15, "#ff0000");
     }
 
     // addButton(field) {
@@ -155,9 +156,7 @@ class MazeGame {
 
     }
 }
-var t = new Date();
+
 window.onload = () => {
-    console.log('Onload:' + (t2.getMilliseconds() - t.getMilliseconds()))
     let game = new MazeGame();
 }
-var t2 = new Date();
