@@ -59,8 +59,6 @@ class MazeGame {
         this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
         this.ufo = new Ufo(this.game, this.wallManager);
-        var t2 = new Date();
-        console.log('Create:' + (t2.getMilliseconds() - t.getMilliseconds()))
         this.wallManager.draw(this.maze, this.size);
         if (!this.game.device.desktop) {
             this.buttons();

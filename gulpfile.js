@@ -4,6 +4,7 @@ var ts = require('gulp-typescript');
 var merge = require('merge2');
 var sourcemaps = require('gulp-sourcemaps');
 var clean = require('gulp-clean');
+var replace = require('gulp-replace');
 
 var typings = [
   'node_modules/phaser/typescript/p2.d.ts',
@@ -32,16 +33,8 @@ gulp.task('clean', function () {
 gulp.task('typings', function () {
   gulp
     .src(typings)
-    // .pipe(gulpCopy(destination, options))
-    // .pipe(otherGulpFunction())
     .pipe(gulp.dest(destinationTypings));
 })
-
-
-// gulp.task('clean-assets', function () {
-//   return gulp.src(desinationAssets, { read: false })
-//     .pipe(clean());
-// });
 
 gulp.task('assets', function () {
 
@@ -85,20 +78,17 @@ gulp.task('client', ['typings', 'libs', 'assets', 'scripts-client', 'js'], funct
 gulp.task('compile', ['typings', 'libs', 'assets', 'scripts-client', 'js'], function () {
 });
 
+gulp.task('add-cordova', function () {
+  gulp.src(['mobile/www/client.html'])
+    .pipe(replace('<!--cordova-->', '<script type="text/javascript" src="cordova.js"></script>'))
+    .pipe(gulp.dest('mobile/www/'));
+});
+
+
 gulp.task('cordova', ['compile'], function () {
-  // gulp
-  //   .src('dist/assets/*.html')
-    // .pipe(gulpCopy(destination, options))
-    // .pipe(otherGulpFunction())
-    // .pipe(gulp.dest('tiled-game-cordova/www'));
   gulp
     .src(['dist/**/*'])
+    .pipe(replace('<!--cordova-->', '<script type="text/javascript" src="cordova.js"></script>'))
     .pipe(gulp.dest('mobile/www/'));
-  // gulp
-  //   .src(['dist/assets/**/*'])
-  //   .pipe(gulp.dest('tiled-game-cordova/www/assets/'));
-  // gulp
-  //   .src(['dist/libs/**/*'])
-  //   .pipe(gulp.dest('tiled-game-cordova/www/libs/'));
 });
 
