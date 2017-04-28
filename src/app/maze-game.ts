@@ -1,6 +1,8 @@
-// import { Maze } from './maze'
-// import { MazeGenerator } from './maze-generator'
-// import { TilePrinter } from './tile-printer'
+import { Consts } from './const'
+import { Maze } from './maze'
+import { MazeGenerator } from './maze-generator'
+import { WallManager } from './wall-manager'
+import { Ufo } from './ufo';
 
 class MazeGame {
 

@@ -1,22 +1,10 @@
 {
     "compilerOptions": {
-        "module": "system",
         "target": "es5",
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "sourceMap": true,
-        "outFile": "client/app.js",
         "rootDir": "./src",
-        "project": "./src",
-        "moduleResolution": "node",
-        "declaration": false
-        // },
-        // "include": [
-        //     "typings/p2.d.ts",
-        //     "typings/phaser.d.ts",
-        //     "typings/pixi.d.ts"
-        // ]
-        // ,
-
+        "project": "./src"
     },
     "exclude": [
             "node_modules",

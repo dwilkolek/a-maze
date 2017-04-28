@@ -1,4 +1,7 @@
-class WallManager {
+import { Consts } from './const';
+import { Maze } from './maze';
+
+export class WallManager {
 
   thickness: number = 0.1;
 
@@ -56,8 +59,6 @@ class WallManager {
         offset += wall.count
       })
     })
-
-
   }
 
   private addBorders(size: { x: number, y: number }) {
@@ -68,8 +69,6 @@ class WallManager {
 
     this.addWall(size, 0, 0, WallManager.mazeOffset * 1, size.y * Consts.tileSize + WallManager.mazeOffset * 2, true, color, opacity);
     this.addWall(size, size.x * Consts.tileSize + WallManager.mazeOffset, 0, WallManager.mazeOffset * 1, size.y * Consts.tileSize + WallManager.mazeOffset * 2, true, color, opacity);
-
-
   }
 
   private addWall(size: { x: number, y: number }, x: number, y: number, width: number, height: number, isBorder: boolean, color?: number, opacity?: number) {
@@ -88,9 +87,7 @@ class WallManager {
       x + width > maxWidth && !isBorder ? maxWidth - (x) : width,
       y + height > maxHeight && !isBorder ? maxHeight - (y) : height,
     );
-    // if (!isBorder) {
     graphics.alpha = (opacity || opacity === 0 ? opacity : this.palette.opacity);
-    // }
     graphics.endFill();
     graphics.boundsPadding = 0;
     var shapeSprite: Phaser.Sprite = this.game.add.sprite(x, y);
@@ -99,35 +96,9 @@ class WallManager {
 
     shapeSprite.body.clearShapes();
     shapeSprite.body.addRectangle(width, height, width / 2.0, height / 2.0);
-    // shapeSprite.body.debug = true;
     shapeSprite.body.kinematic = true;
     this.walls.add(shapeSprite);
   }
-
-  // private drawFloor(x: number, y: number, finishPosition: { x: number, y: number }) {
-  //   var graphics: Phaser.Graphics = this.game.add.graphics(Consts.margins, Consts.margins);
-
-  //   var bg = this.colors.bg;
-
-  //   if (x == 0 && y == 0) {
-  //     bg = this.colors.startbg;
-  //     graphics.endFill();
-  //     this.bg.add(graphics);
-  //   }
-  //   if (x == finishPosition.x - 1 && y == finishPosition.y - 1) {
-  //     bg = this.colors.endbg;
-  //   }
-  //   graphics.lineStyle(1, this.colors.bord, 1);
-  //   graphics.beginFill(bg);
-  //   graphics.drawRect(
-  //     x * Consts.tileSize,// - this.offset(x),
-  //     y * Consts.tileSize,// - this.offset(y),
-  //     Consts.tileSize,
-  //     Consts.tileSize
-  //   );
-  //   graphics.endFill();
-  //   this.bg.add(graphics);
-  // }
 
   private offset(value: number) {
     return value * this.wallThickness();

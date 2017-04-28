@@ -1,4 +1,6 @@
-class MazeGenerator {
+import { Maze } from './maze';
+
+export class MazeGenerator {
 
   private static _instance: MazeGenerator;
 
@@ -73,15 +75,15 @@ class MazeGenerator {
     return result;
   }
 
-  private optimizeWalls(cells: number[][][]) {
-    var horizontalWalls: any[][] = [];
+  private optimizeWalls(cells: number[][][]): Maze {
+    var horizontalWalls: { wall: boolean, count: number }[][] = [];
 
     var prepforVert = [];
 
     cells.forEach((row, rowI, rows) => {
       var nextRow = rows[rowI + 1];
       horizontalWalls[rowI] = [];
-      var lastRowValue = null;
+      var lastRowValue: boolean = null;
       var rowCache = 0;
       row.forEach((cell, cellI, cells) => {
         if (!nextRow) {
@@ -106,7 +108,7 @@ class MazeGenerator {
     });
 
 
-    var verticalWallsTmp = [];
+    var verticalWallsTmp: boolean[][] = [];
     for (var i = 0; i < cells.length; i++) {
       verticalWallsTmp[i] = [];
     }
@@ -120,7 +122,7 @@ class MazeGenerator {
       })
     })
 
-    var cols = []
+    var cols: any = []
 
     for (var r = 0; r < verticalWallsTmp.length; r++) {
       for (var c = 0; c < verticalWallsTmp[r].length; c++) {
@@ -135,11 +137,11 @@ class MazeGenerator {
       }
     }
 
-    var verticalWalls = cols.map((col, colI, colA) => {
-      var lastValue = null;
+    var verticalWalls: { wall: boolean, count: number }[][] = cols.map((col: any, colI: any, colA: any) => {
+      var lastValue: boolean = null;
       var count = 0;
-      var res = [];
-      col.forEach((wall, wallI, wallA) => {
+      var res: { wall: boolean, count: number }[] = [];
+      col.forEach((wall: any, wallI: any, wallA: any) => {
         if (lastValue == null) {
           lastValue = wall;
           count++;

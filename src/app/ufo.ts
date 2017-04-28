@@ -1,4 +1,7 @@
-class Ufo {
+import { Consts } from './const';
+import { WallManager } from './wall-manager';
+
+export class Ufo {
 
   position = { x: 0, y: 0 }
   sprite: Phaser.Sprite;
@@ -69,7 +72,7 @@ class Ufo {
       tweenScale.to({ y: 0, x: 0 }, time - 2000, Phaser.Easing.Linear.None, true)
 
       tween.to({ alpha: 0, angle: 8000 }, time, Phaser.Easing.Linear.None);
-      tween.onComplete.add((e) => {
+      tween.onComplete.add((e:any) => {
         e.destroy();
       }, this);
       tween.start();
