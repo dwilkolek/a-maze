@@ -53,7 +53,7 @@ gulp.task("libs", function () {
 });
 
 gulp.task('clean', function () {
-  return gulp.src(['dist', 'typings'], { read: false })
+  return gulp.src(['dist'], { read: false })
     .pipe(clean());
 });
 
@@ -79,7 +79,7 @@ gulp.task('cordova', function () {
     .pipe(gulp.dest('mobile/www/'));
 });
 
-gulp.task("default", ["typings", "copy-html", "libs", "assets"], function () {
+gulp.task("default", ["copy-html", "libs", "assets"], function () {
   bundle();
   gulp.watch(paths.assets, ['assets']);
   gulp.watch(paths.pages, ['copy-html']);
@@ -89,7 +89,7 @@ gulp.task("default", ["typings", "copy-html", "libs", "assets"], function () {
     .pipe(gulp.dest('mobile/www/'));
 });
 
-gulp.task("dist", ["typings", "copy-html", "libs", "assets"], function () {
+gulp.task("dist", ["copy-html", "libs", "assets"], function () {
   return browserify({
     basedir: '.',
     debug: true,

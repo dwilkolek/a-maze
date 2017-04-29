@@ -1,4 +1,4 @@
-/// <reference path="../../typings/phaser.d.ts"/>
+/// <reference path="../../node_modules/phaser/typescript/phaser.d.ts"/>
 import { Consts } from './const';
 import { WallManager } from './wall-manager';
 

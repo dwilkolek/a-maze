@@ -6,9 +6,9 @@
         "rootDir": "./src",
         "project": "./src"
     },
-    "include": [
-        "typings/**/*"
-    ],
+    // "include": [
+    //     "typings/**/*"
+    // ],
     "exclude": [
         "node_modules",
         "dist"
