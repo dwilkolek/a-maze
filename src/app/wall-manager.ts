@@ -17,8 +17,8 @@ export class WallManager {
     this.walls = game.add.group();
   }
 
-  public static get mazeOffset() {
-    return Consts.tileSize / 15;
+  public static get mazeOffset(): number {
+    return Consts.tileSize * 8;
   }
   public draw(maze: Maze, size: { x: number, y: number }) {
     var offsetForBorder = Consts.tileSize * this.thickness;
@@ -91,7 +91,7 @@ export class WallManager {
     graphics.endFill();
     graphics.boundsPadding = 0;
     var shapeSprite: Phaser.Sprite = this.game.add.sprite(x, y);
-    this.game.physics.p2.enable(shapeSprite, false, true);
+    this.game.physics.p2.enable(shapeSprite);
     shapeSprite.addChild(graphics);
 
     shapeSprite.body.clearShapes();

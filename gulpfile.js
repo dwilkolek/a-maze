@@ -72,6 +72,9 @@ gulp.task('assets', function () {
 gulp.task('cordova', function () {
   gulp
     .src(['dist/**/*'])
+    .pipe(gulp.dest('mobile/www/'));
+  gulp
+    .src(['dist/*.html'])
     .pipe(replace('<!--cordova-->', '<script type="text/javascript" src="cordova.js"></script>'))
     .pipe(gulp.dest('mobile/www/'));
 });
@@ -80,6 +83,10 @@ gulp.task("default", ["typings", "copy-html", "libs", "assets"], function () {
   bundle();
   gulp.watch(paths.assets, ['assets']);
   gulp.watch(paths.pages, ['copy-html']);
+  gulp
+    .src(['dist/**/*'])
+    .pipe(replace('<!--cordova-->', '<script type="text/javascript" src="cordova.js"></script>'))
+    .pipe(gulp.dest('mobile/www/'));
 });
 watchedBrowserify.on("update", bundle);
 watchedBrowserify.on("log", gutil.log);

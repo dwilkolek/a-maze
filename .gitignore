@@ -1,3 +1,5 @@
 /dist
 /node_modules
 /typings
+/mobile/platforms/android/CordovaLib/build
+/mobile/platforms/android/.gradle

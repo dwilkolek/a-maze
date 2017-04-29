@@ -62,9 +62,19 @@ class MazeGame {
 
         this.ufo = new Ufo(this.game, this.wallManager);
         this.wallManager.draw(this.maze, this.size);
-        if (!this.game.device.desktop) {
-            this.buttons();
-        }
+        // if (!this.game.device.desktop) {
+
+        //     // this.buttons();
+        //     // this.game.input.touch.((event:any) => {
+        //     //     console.log('m',event)
+        //     // })
+        //     // this.game.input.touch.onTouchStart((event:any) => {
+        //     //     console.log('s',event)
+        //     // })
+        //     // this.game.input.touch.onTouchEnd((event:any) => {
+        //     //     console.log('e',event)
+        //     // })
+        // }
 
     }
 
@@ -73,7 +83,6 @@ class MazeGame {
     }
 
     render() {
-
     }
 
     moveObject = { left: false, right: false, up: false, down: false }

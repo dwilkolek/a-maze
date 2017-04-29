@@ -1,5 +1,5 @@
 # A-Maze game
-
+## Sample maze game which will A-Maze you!
 
 ## Instalation
 ```
