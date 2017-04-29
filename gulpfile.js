@@ -88,6 +88,22 @@ gulp.task("default", ["typings", "copy-html", "libs", "assets"], function () {
     .pipe(replace('<!--cordova-->', '<script type="text/javascript" src="cordova.js"></script>'))
     .pipe(gulp.dest('mobile/www/'));
 });
+
+gulp.task("dist", ["typings", "copy-html", "libs", "assets"], function () {
+  return browserify({
+    basedir: '.',
+    debug: true,
+    entries: ['src/app/maze-game.ts'],
+    cache: {},
+    packageCache: {}
+  })
+    .plugin(tsify)
+    .bundle()
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest(dest.js));
+})
+
+
 watchedBrowserify.on("update", bundle);
 watchedBrowserify.on("log", gutil.log);
 
