@@ -1,5 +1,6 @@
 import { Consts } from './const';
 import { WallManager } from './wall-manager';
+import * as Phaser from 'phaser';
 
 export class Ufo {
 

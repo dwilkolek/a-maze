@@ -1,5 +1,6 @@
 import { Consts } from './const';
 import { Maze } from './maze';
+import * as Phaser from 'phaser';
 
 export class WallManager {
 

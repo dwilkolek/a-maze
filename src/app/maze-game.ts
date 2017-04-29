@@ -3,6 +3,7 @@ import { Maze } from './maze'
 import { MazeGenerator } from './maze-generator'
 import { WallManager } from './wall-manager'
 import { Ufo } from './ufo';
+import * as Phaser from 'phaser';
 
 class MazeGame {
 
