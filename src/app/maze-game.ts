@@ -48,7 +48,7 @@ class MazeGame {
         }
         this.w = this.game.width;
         this.h = this.game.height;
-        Consts.tileSize = this.w / 15;
+        Consts.tileSize = this.w / 12;
         this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.game.scale.pageAlignHorizontally = true;
         this.game.scale.pageAlignVertically = true;
