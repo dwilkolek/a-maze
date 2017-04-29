@@ -1,9 +1,9 @@
+/// <reference path="../../typings/phaser.d.ts"/>
 import { Consts } from './const'
 import { Maze } from './maze'
 import { MazeGenerator } from './maze-generator'
 import { WallManager } from './wall-manager'
-import { Ufo } from './ufo';
-import * as Phaser from 'phaser';
+import { Pacman } from './pacman';
 
 class MazeGame {
 
@@ -15,7 +15,7 @@ class MazeGame {
 
     size: { x: number, y: number } = { x: 16, y: 9 };
 
-    ufo: Ufo;
+    pacman: Pacman;
     w: number;
     h: number
     maxW: number;
@@ -61,7 +61,7 @@ class MazeGame {
         this.game.physics.p2.restitution = 0.0;
         this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
-        this.ufo = new Ufo(this.game, this.wallManager);
+        this.pacman = new Pacman(this.game, this.wallManager);
         this.wallManager.draw(this.maze, this.size);
         // if (!this.game.device.desktop) {
 
@@ -80,7 +80,7 @@ class MazeGame {
     }
 
     update() {
-        this.ufo.update(this.moveObject);
+        this.pacman.update(this.moveObject);
     }
 
     render() {

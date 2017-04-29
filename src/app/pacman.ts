@@ -1,8 +1,8 @@
+/// <reference path="../../typings/phaser.d.ts"/>
 import { Consts } from './const';
 import { WallManager } from './wall-manager';
-import * as Phaser from 'phaser';
 
-export class Ufo {
+export class Pacman {
 
   position = { x: 0, y: 0 }
   sprite: Phaser.Sprite;
