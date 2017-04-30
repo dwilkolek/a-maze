@@ -1,6 +1,7 @@
 /// <reference path="../../node_modules/phaser/typescript/phaser.d.ts"/>
 import { Consts } from './const';
 import { Maze } from './maze';
+import { Collisions } from './collisions';
 
 export class WallManager {
 
@@ -16,6 +17,8 @@ export class WallManager {
   constructor(private game: Phaser.Game) {
     this.bg = game.add.group();
     this.walls = game.add.group();
+    this.walls.enableBody = true;
+    this.walls.physicsBodyType = Phaser.Physics.P2JS;
   }
 
   public static get mazeOffset(): number {
@@ -91,14 +94,18 @@ export class WallManager {
     graphics.alpha = (opacity || opacity === 0 ? opacity : this.palette.opacity);
     graphics.endFill();
     graphics.boundsPadding = 0;
-    var shapeSprite: Phaser.Sprite = this.game.add.sprite(x, y);
-    this.game.physics.p2.enable(shapeSprite);
+    var shapeSprite: Phaser.Sprite = this.walls.create(x,y);// this.game.add.sprite(x, y);
+    this.game.physics.p2.enable(shapeSprite, true);
     shapeSprite.addChild(graphics);
 
     shapeSprite.body.clearShapes();
     shapeSprite.body.addRectangle(width, height, width / 2.0, height / 2.0);
+    // shapeSprite.body.mass = 1000;
     shapeSprite.body.kinematic = true;
-    this.walls.add(shapeSprite);
+    // this.walls.add(shapeSprite);
+
+    Collisions.getInstance().add('wall', shapeSprite);
+
   }
 
   private offset(value: number) {

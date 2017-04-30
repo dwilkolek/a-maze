@@ -4,11 +4,13 @@ import { WallManager } from './wall-manager';
 
 export class Pacman {
 
-  position = { x: 0, y: 0 }
+  position = { x: 2, y: 3 }
   sprite: Phaser.Sprite;
   cursors: Phaser.CursorKeys;
   emitter: Phaser.Particles.Arcade.Emitter;
   particlesGroup: Phaser.Group;
+
+  private points: number = 0;
 
   moveObject: { left: boolean, right: boolean, up: boolean, down: boolean }
   touching: boolean = false
@@ -17,18 +19,19 @@ export class Pacman {
 
     this.particlesGroup = this.game.add.group();
 
-    this.sprite = game.add.sprite(this.position.x + Consts.tileSize * 0.5 + WallManager.mazeOffset, this.position.y + Consts.tileSize * 0.5 + WallManager.mazeOffset, 'ufo');
+    this.sprite = game.add.sprite(this.position.x * Consts.tileSize + Consts.tileSize * 0.5 + WallManager.mazeOffset, this.position.y * Consts.tileSize + Consts.tileSize * 0.5 + WallManager.mazeOffset, 'ufo');
     this.sprite.anchor.set(0.5);
     this.sprite.scale.setTo(Consts.tileSize / 512 * this.scaleToTile, Consts.tileSize / 512 * this.scaleToTile);
 
-    game.physics.p2.enable(this.sprite);
+    game.physics.p2.enable(this.sprite, false);
+    // this.sprite.body.enableBody = true;
 
     this.sprite.body.setCircle(Consts.tileSize * 0.5 * this.scaleToTile);
     this.cursors = game.input.keyboard.createCursorKeys();
 
     this.game.camera.follow(this.sprite, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
-    this.game.time.events.loop(300, this.particles.bind(this), this);
+    // this.game.time.events.loop(300, this.particles.bind(this), this);
     if (!this.game.device.desktop) {
       this.game.input.addMoveCallback((e: any) => {
         this.game.physics.arcade.moveToXY(this.sprite, e.x, e.y, this.speed);
@@ -42,13 +45,10 @@ export class Pacman {
 
     }
 
-    // this.cursors.down.onUp.add(() => {
-    //   this.stopMoving();
-    // }, this)
-
   }
 
-  update(moveObject: { up: boolean, down: boolean, left: boolean, right: boolean }) {
+  update() {
+    // this.sprite.body.collides(, hitPanda, this);
     if (this.game.device.desktop) {
       this.move();
     }
@@ -59,13 +59,7 @@ export class Pacman {
     this.sprite.body.setZeroVelocity();
     var step = Consts.tileSize * 2;
 
-    if (!this.moveObject) {
-      this.stopMoving();
-    }
     this.stopMoving();
-    // console.log(this.game.physics.arcade.overlap(this.sprite, this.wallManager.walls)
-    // if (!)) {
-
 
     if (this.cursors.left.isDown) {
       this.moveObject.left = true;
@@ -144,5 +138,32 @@ export class Pacman {
 
     }
   }
+
+  addPoints(points: number) {
+    this.points += points;
+    console.log(this.points)
+  }
+
+  getPoints() {
+    return this.points;
+  }
+
+  _killingMode: any;
+  isKillingMode: boolean = false;
+  killingMode() {
+    if (this.isKillingMode) {
+      clearTimeout(this._killingMode);
+    } else {
+      this.isKillingMode = true;
+    }
+    console.log('killing mode', this.isKillingMode)
+
+    this._killingMode = setTimeout(() => {
+      this.isKillingMode = false;
+      console.log('killing mode', this.isKillingMode)
+    }, 15000);
+  }
+
+
 
 }
