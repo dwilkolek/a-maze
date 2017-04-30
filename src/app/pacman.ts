@@ -34,7 +34,7 @@ export class Pacman {
     // this.game.time.events.loop(300, this.particles.bind(this), this);
     if (!this.game.device.desktop) {
       this.game.input.addMoveCallback((e: any) => {
-        this.game.physics.arcade.moveToXY(this.sprite, e.x, e.y, this.speed);
+        this.game.physics.arcade.moveToXY(this.sprite, e.worldX, e.worldY, this.speed);
         this.touching = true;
       }, this)
 

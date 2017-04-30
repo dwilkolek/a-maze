@@ -27,6 +27,7 @@ class MazeGame {
     minH: number;
     time: number;
     textTimer: Phaser.Text;
+    timeInterval: any;
     constructor() {
         this.maxW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         this.maxH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -52,22 +53,23 @@ class MazeGame {
             },
             create: () => {
                 this.time = 3;
-                setInterval(() => {
+                this.timeInterval = setInterval(() => {
                     this.time -= 1;
                     if (this.time == 0) {
                         this.textTimer.text = 'START!!';
                     } else {
-                        this.textTimer.text = 'Game will start in ' + this.time + ' seconds';
+                        if (this.time == -1) {
+                            this.game.state.start('gameState');
+                            clearInterval(this.timeInterval);
+                        } else {
+                            this.textTimer.text = 'Game will start in ' + this.time + ' seconds';
+                        }
                     }
+
 
                 }, 1000);
 
-
-                setTimeout(() => {
-                    this.game.state.start('gameState');
-                }, 4000);
-
-                this.textTimer = this.game.add.text(this.maxW / 2.0, this.maxH / 2.0, 'Game will start in ' + this.time + ' seconds', '');
+                this.textTimer = this.game.add.text(this.w / 2.0, this.h / 2.0, 'Game will start in ' + this.time + ' seconds', '');
 
                 //	Center align
                 this.textTimer.anchor.set(0.5);
@@ -122,9 +124,12 @@ class MazeGame {
                 text.stroke = '#000000';
                 text.strokeThickness = 6;
                 text.fill = '#43d637';
-
+                var started = false;
                 this.game.input.onDown.add(() => {
-                    this.game.state.start('startState');
+                    if (!started) {
+                        this.game.state.start('startState');
+                    }
+                    started = true;
                 }, this)
             }
 

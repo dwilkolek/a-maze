@@ -62,28 +62,28 @@ export class Collisions {
   }
 
   public add(group: string, sprite: Phaser.Sprite): void {
-    console.log('added', group)
+    // console.log('added', group)
     switch (group) {
       case 'gem':
-        console.log(1);
+        // console.log(1);
         sprite.body.setCollisionGroup(this.gemsCollisionGroup);
         sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],
           this.collisionSolver.bind(this));
         break
       case 'gold':
-        console.log(2);
+        // console.log(2);
         sprite.body.setCollisionGroup(this.goldCollisionGroup);
         sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],
           this.collisionSolver.bind(this));
         break
       case 'mob':
-        console.log(3);
+        // console.log(3);
         sprite.body.setCollisionGroup(this.mobsCollisionGroup);
         sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],
           this.collisionSolver.bind(this));
         break
       case 'wall':
-        console.log(4);
+        // console.log(4);
         sprite.body.setCollisionGroup(this.wallCollisionGroup);
         break
     }
