@@ -77,6 +77,7 @@ export class Collisions {
           this.collisionSolver.bind(this));
         break
       case 'mob':
+      case 'sick':
         // console.log(3);
         sprite.body.setCollisionGroup(this.mobsCollisionGroup);
         sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],

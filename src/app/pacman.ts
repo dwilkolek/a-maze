@@ -14,14 +14,14 @@ export class Pacman {
 
   moveObject: { left: boolean, right: boolean, up: boolean, down: boolean }
   touching: boolean = false
-  private scaleToTile = 0.5;
+  private scaleToTile = 0.4;
   constructor(private game: Phaser.Game, private wallManager: WallManager) {
 
     this.particlesGroup = this.game.add.group();
 
     this.sprite = game.add.sprite(this.position.x * Consts.tileSize + Consts.tileSize * 0.5 + WallManager.mazeOffset, this.position.y * Consts.tileSize + Consts.tileSize * 0.5 + WallManager.mazeOffset, 'ufo');
     this.sprite.anchor.set(0.5);
-    this.sprite.scale.setTo(Consts.tileSize / 512 * this.scaleToTile, Consts.tileSize / 512 * this.scaleToTile);
+    this.sprite.scale.setTo(Consts.tileSize / 96 * this.scaleToTile, Consts.tileSize / 96 * this.scaleToTile);
 
     game.physics.p2.enable(this.sprite, false);
     // this.sprite.body.enableBody = true;

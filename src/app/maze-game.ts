@@ -15,6 +15,7 @@ class MazeGame {
     maze: Maze;
 
     wallManager: WallManager;
+    mobManager: MobManager;
 
     size: { x: number, y: number } = { x: 15, y: 15 };
 
@@ -143,7 +144,8 @@ class MazeGame {
         this.game.load.image('gem', 'assets/gem.png');
         this.game.load.image('gold', 'assets/gold.png');
         this.game.load.image('maze-bg', 'assets/maze-bg.png');
-        this.game.load.image('mob', 'assets/mob.png');
+        this.game.load.spritesheet('mob', 'assets/mob.png', 97, 98);
+        this.game.load.image('sick', 'assets/sick.png');
         this.game.load.image('hazard', 'assets/hazard.png');
 
 
@@ -169,11 +171,13 @@ class MazeGame {
         this.wallManager.draw(this.maze, this.size);
 
         new GemManager(this.game, this.size).start()
-        new MobManager(this.game, this.pacman, this.size).start()
+        this.mobManager = new MobManager(this.game, this.pacman, this.size);//
+        this.mobManager.start()
     }
 
     update() {
         this.pacman.update();
+        this.mobManager.update();
     }
 
     render() {
