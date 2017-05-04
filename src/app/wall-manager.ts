@@ -2,6 +2,7 @@
 import { Consts } from './const';
 import { Maze } from './maze';
 import { Collisions } from './collisions';
+import { Wall } from './wall';
 
 export class WallManager {
 
@@ -104,7 +105,7 @@ export class WallManager {
     shapeSprite.body.kinematic = true;
     // this.walls.add(shapeSprite);
 
-    Collisions.getInstance().add('wall', shapeSprite);
+    Collisions.getInstance().add('wall', new Wall(shapeSprite));
 
   }
 

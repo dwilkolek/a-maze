@@ -1,6 +1,6 @@
 /// <reference path="../../node_modules/phaser/typescript/phaser.d.ts"/>
 import { Pacman } from './pacman';
-
+import {WithSriteInterface} from './with-srite-interface';
 export class Collisions {
 
   private static _instance: Collisions;
@@ -61,62 +61,70 @@ export class Collisions {
     return this._instance;
   }
 
-  public add(group: string, sprite: Phaser.Sprite): void {
+  public add(group: string, obj: WithSriteInterface): void {
     // console.log('added', group)
     switch (group) {
       case 'gem':
         // console.log(1);
-        sprite.body.setCollisionGroup(this.gemsCollisionGroup);
-        sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],
-          this.collisionSolver.bind(this));
+        obj.sprite.body.setCollisionGroup(this.gemsCollisionGroup);
+        obj.sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],
+          Collisions.collisionSolver.bind(this));
         break
       case 'gold':
         // console.log(2);
-        sprite.body.setCollisionGroup(this.goldCollisionGroup);
-        sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],
-          this.collisionSolver.bind(this));
+        obj.sprite.body.setCollisionGroup(this.goldCollisionGroup);
+        obj.sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],
+          Collisions.collisionSolver.bind(this));
         break
       case 'mob':
       case 'sick':
         // console.log(3);
-        sprite.body.setCollisionGroup(this.mobsCollisionGroup);
-        sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],
-          this.collisionSolver.bind(this));
+        obj.sprite.body.setCollisionGroup(this.mobsCollisionGroup);
+        obj.sprite.body.collides([this.goldCollisionGroup, this.gemsCollisionGroup],
+          Collisions.collisionSolver.bind(this));
+        obj.sprite.body.collides([this.mobsCollisionGroup, this.wallCollisionGroup],
+          obj.collide.bind(obj));
         break
       case 'wall':
         // console.log(4);
-        sprite.body.setCollisionGroup(this.wallCollisionGroup);
+        obj.sprite.body.setCollisionGroup(this.wallCollisionGroup);
+        obj.sprite.body.collides([this.mobsCollisionGroup],
+          function () { });
         break
     }
 
-    sprite.body.collides(this.playerCollisionGroup, function (a: any, b: any) {
+    obj.sprite.body.collides(this.playerCollisionGroup, function (a: any, b: any) {
 
     }, this);
   }
 
-  public collisionSolver(a: any, b: any) {
-    var getValue = function(key:string) {
-        switch (key) {
-          case 'ufo': return 1000;
-          case 'mob': return 2;
-          case 'gold': return 0;
-          case 'gem': return 1;
-        }
+  private mobBouncing(a: any, b: any) {
+    console.log('mob bounce', a, b)
+  }
+
+  public static collisionSolver(a: any, b: any) {
+    var getValue = function (key: string) {
+      switch (key) {
+        case 'ufo': return 1000;
+        case 'mob': return 2;
+        case 'gold': return 0;
+        case 'gem': return 1;
       }
-      if (!a.sprite || !b.sprite) {
-        return;
-      }
-      if (a.sprite.key == b.sprite.key) {
-        a.sprite.destroy();
+    }
+    if (!a.sprite || !b.sprite) {
+      return;
+    }
+    if (a.sprite.key == b.sprite.key) {
+      a.sprite.destroy();
+    } else {
+      var av = getValue(a.sprite.key);
+      var bv = getValue(b.sprite.key);
+      if (av > bv) {
+        b.sprite.destroy();
       } else {
-        var av = getValue(a.sprite.key);
-        var bv = getValue(b.sprite.key);
-        if (av > bv) {
-          b.sprite.destroy();
-        } else {
-          a.sprite.destroy();
-        }
+        a.sprite.destroy();
       }
+    }
   }
 
 }

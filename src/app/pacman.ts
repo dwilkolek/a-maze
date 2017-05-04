@@ -48,7 +48,6 @@ export class Pacman {
   }
 
   update() {
-    // this.sprite.body.collides(, hitPanda, this);
     if (this.game.device.desktop) {
       this.move();
     }

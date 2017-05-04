@@ -144,7 +144,7 @@ class MazeGame {
         this.game.load.image('gem', 'assets/gem.png');
         this.game.load.image('gold', 'assets/gold.png');
         this.game.load.image('maze-bg', 'assets/maze-bg.png');
-        this.game.load.spritesheet('mob', 'assets/mob.png', 97, 98);
+        this.game.load.spritesheet('mob', 'assets/mob.png', 32, 32);
         this.game.load.image('sick', 'assets/sick.png');
         this.game.load.image('hazard', 'assets/hazard.png');
 
@@ -154,6 +154,8 @@ class MazeGame {
         this.game.load.spritesheet('buttondiagonal', 'assets/button-diagonal.png', 48, 48);
 
     }
+
+    pointsText: Phaser.Text;
 
     create() {
         this.wallManager = new WallManager(this.game);
@@ -173,11 +175,32 @@ class MazeGame {
         new GemManager(this.game, this.size).start()
         this.mobManager = new MobManager(this.game, this.pacman, this.size);//
         this.mobManager.start()
+
+        console.log(this.w, this.h)
+        this.pointsText = this.game.add.text(Consts.tileSize / 8, Consts.tileSize / 8, ':' + this.pacman.getPoints(), '');
+        this.pointsText.fixedToCamera = true;
+        //	Center align
+        // this.pointsText.anchor.set(0.5);
+        this.pointsText.align = 'right';
+
+        //	Font style
+        this.pointsText.font = 'Arial Black';
+        this.pointsText.fontSize = Consts.tileSize / 4.0;
+        this.pointsText.fontWeight = 'bold';
+
+        //	Stroke color and thickness
+        this.pointsText.stroke = '#000000';
+        this.pointsText.strokeThickness = 6;
+        this.pointsText.fill = '#43d637';
+        this.pointsText.bringToTop();
     }
 
     update() {
         this.pacman.update();
         this.mobManager.update();
+        this.pointsText.setText(':' + this.pacman.getPoints());
+        // this.pointsText.position.set(this.game.camera.position.x, this.game.camera.position.y)
+
     }
 
     render() {

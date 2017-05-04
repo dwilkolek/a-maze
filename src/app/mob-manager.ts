@@ -3,10 +3,12 @@ import { WallManager } from './wall-manager';
 import { Consts } from './const';
 import { Collisions } from './collisions';
 import { Pacman } from './pacman';
+import { Mob } from './mob';
 
 export class MobManager {
 
   public mobs: Phaser.Group;
+  public mobsInstances: Mob[] = [];
   constructor(private game: Phaser.Game, private pacman: Pacman, private size: { x: number, y: number }) {
   }
 
@@ -43,23 +45,30 @@ export class MobManager {
       e.destroy();
       var sprite = this.game.add.sprite(x * Consts.tileSize + Consts.tileSize * 0.5 + WallManager.mazeOffset, y * Consts.tileSize + Consts.tileSize * 0.5 + WallManager.mazeOffset, 'mob');
       sprite.anchor.set(0.5);
-      sprite.scale.setTo(Consts.tileSize / 98 * 0.3, Consts.tileSize / 98 * 0.3);
+      sprite.scale.setTo(Consts.tileSize / 32 * 0.3, Consts.tileSize / 32 * 0.3);
 
       this.game.physics.p2.enable(sprite, false);
 
       sprite.body.setCircle(Consts.tileSize * 0.2);
       this.mobs.add(sprite);
       // sprite.body.kinematic = true;
-      Collisions.getInstance().add('mob', sprite);
+      var mob = new Mob(sprite, this.game);
+      Collisions.getInstance().add('mob', mob);
+
+      this.mobsInstances.push(mob);
+
     }, this);
     tween.start();
 
   }
 
   update() {
-    this.mobs.forEach((mob: any) => {
-      this.pacman.isKillingMode ? mob.frame = 1 : mob.frame = 0;
+    this.mobsInstances.forEach((mob: Mob) => {
+      this.pacman.isKillingMode ? mob.sprite.frame = 1 : mob.sprite.frame = 0;
+      mob.move();
     }, this)
+
+
   }
 
 

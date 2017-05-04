@@ -70,12 +70,12 @@ export class MazeGenerator {
       }
     }
 
-    var result = this.optimizeWalls(cells);
+    var result = this.optimizeWalls(cells, size);
 
     return result;
   }
 
-  private optimizeWalls(cells: number[][][]): Maze {
+  private optimizeWalls(cells: number[][][], size: { x: number, y: number }): Maze {
     var horizontalWalls: { wall: boolean, count: number }[][] = [];
 
     var prepforVert = [];
@@ -164,7 +164,43 @@ export class MazeGenerator {
     verticalWalls.pop();
 
 
-    return { cols: verticalWalls, rows: horizontalWalls };
+    return { cols: [] || verticalWalls, rows: [] || horizontalWalls };
+    // var xSum = 0;
+    // var last = true;
+    // var xca = [];
+    // for (var i = 1; i < size.x; i++) {
+    //   var xc = [];
+    //   while (xSum != size.x) {
+    //     var rest = size.x - xSum;
+    //     var v = (Math.round(Math.random() * 7) + 1);
+    //     v = v > rest ? rest : v;
+    //     last = !last;
+    //     xc.push({ wall: last, count: v })
+    //     xSum += v;
+    //   }
+
+    //   xca.push(xc);
+    //   xSum = 0;
+    // }
+    // var yca = [];
+    // var ySum = 0;
+    // for (var i = 1; i < size.x; i++) {
+    //   var yc = [];
+    //   while (ySum != size.y) {
+    //     var rest = size.y - ySum;
+    //     var v = (Math.round(Math.random() * 7) + 1);
+    //     v = v > rest ? rest : v;
+    //     last = !last;
+    //     yc.push({ wall: last, count: v })
+    //     ySum += v;
+    //   }
+
+    //   yca.push(yc);
+    //   ySum = 0;
+    // }
+
+
+    // return { cols: yca, rows: xca }
   }
 
 

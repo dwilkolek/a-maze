@@ -2,6 +2,7 @@
 import { WallManager } from './wall-manager';
 import { Consts } from './const';
 import { Collisions } from './collisions';
+import { Gem } from './gem';
 
 export class GemManager {
 
@@ -18,19 +19,19 @@ export class GemManager {
   }
 
   spawnGem() {
-    var isGem = Math.random() >= 0.2;
+    var isGem = Math.random() >= 0.3;
     var x = (Math.round(Math.random() * (this.size.x - 1)));
     var y = (Math.round(Math.random() * (this.size.y - 1)));
 
     var sprite = this.game.add.sprite(x * Consts.tileSize + Consts.tileSize * 0.5 + WallManager.mazeOffset, y * Consts.tileSize + Consts.tileSize * 0.5 + WallManager.mazeOffset, isGem ? 'gem' : 'gold');
     sprite.anchor.set(0.5);
-    sprite.scale.setTo(Consts.tileSize / 16 * 0.3, Consts.tileSize / 16 * 0.3);
+    sprite.scale.setTo(Consts.tileSize / 32 * 0.3, Consts.tileSize / 32 * 0.3);
 
     this.game.physics.p2.enable(sprite, false);
 
     sprite.body.setCircle(Consts.tileSize * 0.15);
     // sprite.body.kinematic = true;
-    Collisions.getInstance().add(isGem ? 'gem' : 'gold', sprite);
+    Collisions.getInstance().add(isGem ? 'gem' : 'gold', new Gem(sprite, this.game));
 
   }
 
