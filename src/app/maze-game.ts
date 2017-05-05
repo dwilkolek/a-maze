@@ -1,7 +1,6 @@
 /// <reference path="../../node_modules/phaser/typescript/phaser.d.ts"/>
 import { Consts } from './const';
 import { Maze } from './maze';
-import { MazeGenerator } from './maze-generator';
 import { WallManager } from './wall-manager';
 import { Pacman } from './pacman';
 import { GemManager } from './gem-manager';
@@ -17,7 +16,7 @@ class MazeGame {
     wallManager: WallManager;
     mobManager: MobManager;
 
-    size: { x: number, y: number } = { x: 15, y: 15 };
+    size: { x: number, y: number } = { x: 10, y: 10 };
 
     pacman: Pacman;
     w: number;
@@ -36,8 +35,6 @@ class MazeGame {
         this.minW = 960;
 
         this.game = new Phaser.Game(this.minW, this.minH, Phaser.CANVAS, 'content');
-
-        this.maze = MazeGenerator.getInstance().generate(this.size);
 
         this.game.state.add('startState', {
 
@@ -63,14 +60,14 @@ class MazeGame {
                             this.game.state.start('gameState');
                             clearInterval(this.timeInterval);
                         } else {
-                            this.textTimer.text = 'Game will start in ' + this.time + ' seconds';
+                            this.textTimer.text = 'Game starts in ' + this.time + ' seconds';
                         }
                     }
 
 
                 }, 1000);
 
-                this.textTimer = this.game.add.text(this.w / 2.0, this.h / 2.0, 'Game will start in ' + this.time + ' seconds', '');
+                this.textTimer = this.game.add.text(this.w / 2.0, this.h / 2.0, 'Game starts in ' + this.time + ' seconds', '');
 
                 //	Center align
                 this.textTimer.anchor.set(0.5);
@@ -126,6 +123,12 @@ class MazeGame {
                 text.strokeThickness = 6;
                 text.fill = '#43d637';
                 var started = false;
+                this.game.input.keyboard.onDownCallback= () => {
+                    if (!started) {
+                        this.game.state.start('startState');
+                    }
+                    started = true;
+                };
                 this.game.input.onDown.add(() => {
                     if (!started) {
                         this.game.state.start('startState');
@@ -145,7 +148,6 @@ class MazeGame {
         this.game.load.image('gold', 'assets/gold.png');
         this.game.load.image('maze-bg', 'assets/maze-bg.png');
         this.game.load.spritesheet('mob', 'assets/mob.png', 32, 32);
-        this.game.load.image('sick', 'assets/sick.png');
         this.game.load.image('hazard', 'assets/hazard.png');
 
 
@@ -170,14 +172,14 @@ class MazeGame {
 
         Collisions.getInstance().prepare(this.game, this.pacman);
 
-        this.wallManager.draw(this.maze, this.size);
+        this.wallManager.draw(this.size);
 
         new GemManager(this.game, this.size).start()
         this.mobManager = new MobManager(this.game, this.pacman, this.size);//
         this.mobManager.start()
 
         console.log(this.w, this.h)
-        this.pointsText = this.game.add.text(Consts.tileSize / 8, Consts.tileSize / 8, ':' + this.pacman.getPoints(), '');
+        this.pointsText = this.game.add.text(Consts.tileSize / 8, Consts.tileSize / 8, this.pacman.getPoints()+'', '');
         this.pointsText.fixedToCamera = true;
         //	Center align
         // this.pointsText.anchor.set(0.5);
@@ -198,7 +200,7 @@ class MazeGame {
     update() {
         this.pacman.update();
         this.mobManager.update();
-        this.pointsText.setText(':' + this.pacman.getPoints());
+        this.pointsText.setText(this.pacman.getPoints()+'');
         // this.pointsText.position.set(this.game.camera.position.x, this.game.camera.position.y)
 
     }

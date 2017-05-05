@@ -25,45 +25,13 @@ export class WallManager {
   public static get mazeOffset(): number {
     return Consts.tileSize * 8;
   }
-  public draw(maze: Maze, size: { x: number, y: number }) {
+  public draw(size: { x: number, y: number }) {
     var offsetForBorder = Consts.tileSize * this.thickness;
     var floor = this.game.add.tileSprite(WallManager.mazeOffset, WallManager.mazeOffset, size.x * Consts.tileSize, size.y * Consts.tileSize, 'maze-bg');
     this.bg.add(floor);
 
 
     this.addBorders(size);
-
-    maze.cols.forEach((col, colIndex) => {
-      var offset = 0;
-      col.forEach(wall => {
-        if (!wall.wall) {
-          this.addWall(size,
-            (colIndex + 1) * Consts.tileSize,
-            offset * Consts.tileSize,
-            this.thickness * Consts.tileSize,
-            wall.count * Consts.tileSize + offsetForBorder,
-            false
-          )
-        }
-        offset += wall.count
-      })
-    })
-
-    maze.rows.forEach((row, rowIndex) => {
-      var offset = 0;
-      row.forEach(wall => {
-        if (!wall.wall) {
-          this.addWall(size,
-            offset * Consts.tileSize,
-            (rowIndex + 1) * Consts.tileSize,
-            wall.count * Consts.tileSize + offsetForBorder,
-            this.thickness * Consts.tileSize,
-            false
-          )
-        }
-        offset += wall.count
-      })
-    })
   }
 
   private addBorders(size: { x: number, y: number }) {
@@ -101,9 +69,7 @@ export class WallManager {
 
     shapeSprite.body.clearShapes();
     shapeSprite.body.addRectangle(width, height, width / 2.0, height / 2.0);
-    // shapeSprite.body.mass = 1000;
     shapeSprite.body.kinematic = true;
-    // this.walls.add(shapeSprite);
 
     Collisions.getInstance().add('wall', new Wall(shapeSprite, this.game));
 

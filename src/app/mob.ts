@@ -1,9 +1,9 @@
 /// <reference path="../../node_modules/phaser/typescript/phaser.d.ts"/>
 import { Consts } from './const';
 import { Collisions } from './collisions';
-import { WithSriteInterface } from './with-srite-interface';
+import { WithSpriteInterface } from './with-sprite-interface';
 
-export class Mob implements WithSriteInterface {
+export class Mob implements WithSpriteInterface {
   public sprite: Phaser.Sprite;
   private isMoving: boolean = false;
   constructor(sprite: Phaser.Sprite, private game: Phaser.Game) {
@@ -13,7 +13,6 @@ export class Mob implements WithSriteInterface {
 
   pos: { x: number, y: number }
   public move() {
-    console.log('move')
     if (this.sprite && this.sprite.body && !this.pos) {
       this.sprite.body.setZeroRotation();
       this.sprite.body.setZeroVelocity();

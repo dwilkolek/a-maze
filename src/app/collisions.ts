@@ -1,6 +1,6 @@
 /// <reference path="../../node_modules/phaser/typescript/phaser.d.ts"/>
 import { Pacman } from './pacman';
-import {WithSriteInterface} from './with-srite-interface';
+import {WithSpriteInterface} from './with-sprite-interface';
 export class Collisions {
 
   private static _instance: Collisions;
@@ -61,7 +61,7 @@ export class Collisions {
     return this._instance;
   }
 
-  public add(group: string, obj: WithSriteInterface): void {
+  public add(group: string, obj: WithSpriteInterface): void {
     // console.log('added', group)
     switch (group) {
       case 'gem':
