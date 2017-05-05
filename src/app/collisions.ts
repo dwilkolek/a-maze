@@ -45,7 +45,6 @@ export class Collisions {
     }, this);
 
     player.sprite.body.collides(this.wallCollisionGroup, function (a: any, b: any) {
-      // console.log('wall', a, b)
     }, this);
 
   }
@@ -62,23 +61,19 @@ export class Collisions {
   }
 
   public add(group: string, obj: WithSpriteInterface): void {
-    // console.log('added', group)
     switch (group) {
       case 'gem':
-        // console.log(1);
         obj.sprite.body.setCollisionGroup(this.gemsCollisionGroup);
         obj.sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],
           Collisions.collisionSolver.bind(this));
         break
       case 'gold':
-        // console.log(2);
         obj.sprite.body.setCollisionGroup(this.goldCollisionGroup);
         obj.sprite.body.collides([this.mobsCollisionGroup, this.goldCollisionGroup, this.gemsCollisionGroup],
           Collisions.collisionSolver.bind(this));
         break
       case 'mob':
       case 'sick':
-        // console.log(3);
         obj.sprite.body.setCollisionGroup(this.mobsCollisionGroup);
         obj.sprite.body.collides([this.goldCollisionGroup, this.gemsCollisionGroup],
           Collisions.collisionSolver.bind(this));
@@ -86,7 +81,6 @@ export class Collisions {
           obj.collide.bind(obj));
         break
       case 'wall':
-        // console.log(4);
         obj.sprite.body.setCollisionGroup(this.wallCollisionGroup);
         obj.sprite.body.collides([this.mobsCollisionGroup],
           function () { });

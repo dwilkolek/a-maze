@@ -28,7 +28,6 @@ export class MobManager {
       y * Consts.tileSize + Consts.tileSize * 0.5 + WallManager.mazeOffset);
 
     while (Consts.tileSize * 2.5 >= dist) {
-      console.log(dist, Consts.tileSize)
       x = (Math.round(Math.random() * (this.size.x - 1)));
       y = (Math.round(Math.random() * (this.size.y - 1)));
       dist = this.game.physics.arcade.distanceToXY(

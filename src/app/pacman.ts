@@ -140,7 +140,6 @@ export class Pacman {
 
   addPoints(points: number) {
     this.points += points;
-    console.log(this.points)
   }
 
   getPoints() {
@@ -155,12 +154,10 @@ export class Pacman {
     } else {
       this.isKillingMode = true;
     }
-    console.log('killing mode', this.isKillingMode)
 
     this._killingMode = setTimeout(() => {
       this.isKillingMode = false;
-      console.log('killing mode', this.isKillingMode)
-    }, 15000);
+    }, 10000);
   }
 
 
