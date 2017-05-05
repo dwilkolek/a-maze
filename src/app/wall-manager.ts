@@ -105,7 +105,7 @@ export class WallManager {
     shapeSprite.body.kinematic = true;
     // this.walls.add(shapeSprite);
 
-    Collisions.getInstance().add('wall', new Wall(shapeSprite));
+    Collisions.getInstance().add('wall', new Wall(shapeSprite, this.game));
 
   }
 
